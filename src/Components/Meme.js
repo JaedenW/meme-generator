@@ -8,9 +8,7 @@ export default function Meme() {
 		randomImage: 'http://i.imgflip.com/1bij.jpg', // placeholder
 	});
 
-	const [allMemeImages, setAllMemeImages] = React.useState({
-		...memesData,
-	});
+	const [allMemeImages, setAllMemeImages] = React.useState(memesData);
 
 	function getMeme() {
 		const memesArray = memesData.data.memes;
@@ -23,6 +21,16 @@ export default function Meme() {
 			};
 		});
 	}
+
+	function handleClick(event) {
+		const { name, value } = event.target;
+		setMeme((prevMeme) => {
+			return {
+				...prevMeme,
+				[name]: value,
+			};
+		});
+	}
 	function handleOnMouseOver() {}
 
 	return (
@@ -32,11 +40,17 @@ export default function Meme() {
 					className="form--input"
 					type="text"
 					placeholder="Top Text"
+					onChange={handleClick}
+					name="topText"
+					value={meme.topText}
 				></input>
 				<input
 					className="form--input"
 					type="text"
 					placeholder="Bottom Text"
+					onChange={handleClick}
+					name="bottomText"
+					value={meme.bottomText}
 				></input>
 				<button
 					className="form--button"
@@ -45,11 +59,15 @@ export default function Meme() {
 				>
 					Get a New Meme Image 🖼
 				</button>
-				<img
-					className="meme--image"
-					src={meme.randomImage}
-					alt="Meme"
-				/>
+				<div className="meme">
+					<img
+						className="meme--image"
+						src={meme.randomImage}
+						alt="Meme"
+					/>
+					<h2 className="meme--text top">{meme.topText}</h2>
+					<h2 className="meme--text bottom">{meme.bottomText}</h2>
+				</div>
 			</div>
 		</main>
 	);
